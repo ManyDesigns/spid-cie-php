@@ -76,12 +76,12 @@
         "sign-metadata": [
             "SPID_PHP\\Setup::signMetadata"
         ],
-        "uninstall": [
+        "remove-all": [
             "SPID_PHP\\Setup::remove"
         ]
     },
     "scripts-descriptions": {
-        "uninstall": "Remove all packages and custom configurations"
+        "remove-all": "Remove all packages and custom configurations"
     },    
     "autoload": {
         "classmap": ["setup/"]
