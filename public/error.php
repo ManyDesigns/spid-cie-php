@@ -19,7 +19,7 @@ echo "<div class='section'>
                     </div>
                     <div class='error-data'>" .$data. "</div>
                     <div style='display: flex; justify-content: center;'>
-                       <a href=\"" .$entityID."/?client_id=".$client_id."&redirect_uri=".$redirect_uri."\" class=\"btn btn-primary\" role=\"button\" aria-disabled=\"true\">Riprova</a> 
+                       <a href=\"" .$entityID."/proxy-login.php?client_id=".$client_id."&redirect_uri=".$redirect_uri."\" class=\"btn btn-primary\" role=\"button\" aria-disabled=\"true\">Riprova</a> 
                     </div>
                 </div>
               </div>
