@@ -110,7 +110,7 @@ $config = array(
      /* SPID - as expected by SPID agreement datetime MUST be logged in UTC format. 
       * so timezone MUST be set to null
       */
-    'timezone' => null,
+    'timezone' => 'Europe/Rome',
 
     /*
      * Logging.
@@ -217,12 +217,12 @@ $config = array(
      * Ensure that you have the required PDO database driver installed
      * for your connection string.
      */
-    'database.dsn' => 'mysql:host=localhost;dbname=saml',
+    'database.dsn' => 'mysql:host=127.0.0.1;dbname=saml',
 
     /*
      * SQL database credentials
      */
-    'database.username' => 'simplesamlphp',
+    'database.username' => 'samluser',
     'database.password' => 'secret',
 
     /*
@@ -701,7 +701,7 @@ $config = array(
      *
      * (This option replaces the old 'session.handler'-option.)
      */
-    'store.type'                    => 'phpsession',
+    'store.type'                    => 'sql',
 
     /*
      * The DSN the sql datastore should connect to.
@@ -709,13 +709,13 @@ $config = array(
      * See http://www.php.net/manual/en/pdo.drivers.php for the various
      * syntaxes.
      */
-    'store.sql.dsn'                 => 'sqlite:/path/to/sqlitedatabase.sq3',
+    'store.sql.dsn'                 => 'mysql:host=127.0.0.1;dbname=spiddb',
 
     /*
      * The username and password to use when connecting to the database.
      */
-    'store.sql.username' => null,
-    'store.sql.password' => null,
+    'store.sql.username' => 'spiddbuser',
+    'store.sql.password' => 'secret',
 
     /*
      * The prefix we should use on our tables.
