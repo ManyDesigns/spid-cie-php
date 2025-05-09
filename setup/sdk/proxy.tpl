@@ -116,13 +116,21 @@
                             }
                         }
 
-                        $handler = new $handlerClass($proxy_config['spDomain'], $client_config);
-                        $handler->set('providerId', $spidsdk->getIdP());
-                        $handler->set('providerName', $spidsdk->getIdPKey());
-                        $handler->set('responseId', $spidsdk->getResponseID());
+                        // $handler = new $handlerClass($proxy_config['spDomain'], $client_config);
+                        // $handler->set('providerId', $spidsdk->getIdP());
+                        // $handler->set('providerName', $spidsdk->getIdPKey());
+                        // $handler->set('responseId', $spidsdk->getResponseID());
                         
-                        $handler->sendResponse($redirect_uri, $data, $state);
-                        die();
+                        // $handler->sendResponse($redirect_uri, $data, $state);
+                        // die();
+
+                        $exp_time = $proxy_config['tokenExpTime'] ?: DEFAULT_TOKEN_EXPIRATION_TIME;
+                        $iss = $proxy_config['spDomain'];
+                        $aud = $redirect_uri;
+                        $jwt_pem = TOKEN_PRIVATE_KEY;
+                        $signedDataToken = makeJWT($data, $exp_time, $iss, $aud, $jwt_pem);
+                        header('Location: '.$redirect_uri."?token=". $signedDataToken."&service=". $service);
+                        exit();
                 
                     } else {
                         /*
@@ -262,6 +270,34 @@
     if(DEBUG) echo "action not valid"; 
     die(); 
 
+    function makeJWT($payload, $exp_time, $iss, $aud, $jwt_pem): string {
 
+        $iat        = new DateTimeImmutable();
+        $exp_time   = $exp_time?: DEFAULT_TOKEN_EXPIRATION_TIME;
+        $exp        = $iat->modify("+".$exp_time." seconds")->getTimestamp();
+
+        $data = [
+            'iss'  => $iss,                                     // Issuer - spDomain
+            'aud'  => $aud,                                     // Audience - Redirect_uri
+            'iat'  => $iat->getTimestamp(),                     // Issued at: time when the token was generated
+            'nbf'  => $iat->getTimestamp(),                     // Not before
+            'exp'  => $exp,                                     // Expire
+            'data' => $payload,                                 // Authentication Data
+        ];
+        $privateKey = file_get_contents($jwt_pem,true);
+
+        $algorithmManager = new AlgorithmManager([new RS256()]);
+        $jwsBuilder = new JWSBuilder($algorithmManager);
+        $jws = $jwsBuilder
+            ->create()
+            ->withPayload(json_encode($data))
+            ->addSignature(JWKFactory::createFromKeyFile($jwt_pem), ['alg' => 'RS256'])
+            ->build();
+    
+        $serializer = new JWSSerializer();
+        $token = $serializer->serialize($jws);
+        
+        return $token;    
+    }
 ?>
 
