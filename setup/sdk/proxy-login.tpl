@@ -2,10 +2,13 @@
 
     require_once("{{SDKHOME}}/proxy-spid-php.php");
 
+    if(isset($_GET['client_id'])) $client_id = $_GET['client_id'];
+    if(isset($_GET['redirect_uri'])) $redirect_uri = urldecode($_GET['redirect_uri']);
+
     $production = false;
     $state = '';
 
-    $spidsdk = new PROXY_SPID_PHP('{{PROXY_CLIENT_ID}}', '{{PROXY_REDIRECT_URI}}', $state, $production);
+    $spidsdk = new PROXY_SPID_PHP($client_id, $redirect_uri, $state, $production);
 
     //$spidsdk->setPurpose("P");
 
