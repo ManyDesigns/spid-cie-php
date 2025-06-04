@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <title>Galliera :: Referti Web</title>
+  <meta name="author" content="SIeT E.O. Ospedali Galliera <sysadmins@galliera.it>">
+  <meta name="description" content="">
+
+  <!-- FAV AND TOUCH ICONS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+
+  <link rel="shortcut icon" href="/src/static/img/favicon.ico">
+
+  <link rel="apple-touch-icon" href="/media/img/icon-iphone.png"/>
+  <link rel="apple-touch-startup-image" href="/media/img/splash-iphone.png"/>
+
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="HandheldFriendly" content="true">
+  <meta name="MobileOptimized" content="width">
+  <!-- / FAV AND TOUCH ICONS -->
+
+  <!-- STYLESHEETs -->
+
+  <link rel="stylesheet" type="text/css" href="/src/static/css/bootstrap.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/src/static/css/bootstrap-responsive.min.css"/>
+  <link rel="stylesheet" type="text/css" href="/src/static/css/bootstrap-fix.css"/>
+  <link rel="stylesheet" type="text/css" href="/src/static/css/font-awesome.css">
+  <link rel="stylesheet" type="text/css" href="/src/static/css/font-awesome-ie7.css">
+  <link rel="stylesheet" type="text/css" href="/src/static/css/dark-top.css">
+  <link rel="stylesheet" type="text/css" href="/src/static/css/refertiweb.refertiweb.css"/>
+  <!-- / STYLESHEETs -->
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="brand" href="//referti.galliera.it/referti/">Galliera :: Ritiro referti</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="v-spacer visible-desktop"></div>
+<div class="container" id="page">
+
+
+  <div class="hero-unit">
+    <img src="/src/static/img/logo-galliera.png" alt="[Logo Galliera]" class="logo">
+    <p class="address">Mura delle Cappuccine 14 - 16128 Genova ~ Tel. +39 01056321 - Fax +39 0105632018<span
+            class="piva"> - P. IVA 00557720109</span></p>
+  </div>
+
+  <div class="row">
+    <div class="span8 offset2">
+      <h2>Ritiro referti on-line</h2>
+      <div class="alert alert-success">
+        <h4>ATTENZIONE</h4>
+        <p>
+          In attuazione della legge n° 120 del 11/09/2020, l'accesso al
+          servizio Referti-Web deve avvenire tramite
+          credenziali <b>SPID</b> (Sistema Pubblico di Identità
+          Digitale) o <b>CIE</b> (Carta di Identità Elettronica).
+        </p>
+        <p>
+          Per la <b>CIE</b> vale la seguente regola (indicata
+          a <a href="https://www.cartaidentita.interno.gov.it/assistenza/">
+          questa pagina del ministero degli interni</a>, FAQ n° 3):
+          <br/><br/>
+
+          «Attualmente il minore di età compresa tra 5 e 18 anni può
+          usare le credenziali CIE solo per accedere agli istituti scolastici di
+          ogni ordine e grado, comprese le scuole ed accademie militari. Sono in
+          corso di analisi nuove funzionalità per consentire l’accesso, da parte
+          di minori di età compresa tra 14 e 18 anni, ai servizi in rete con
+          l’eventuale consenso dei genitori.»
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span4 offset2">
+      <p>
+        Se sei già in possesso di <b>SPID</b>, accedi con le credenziali
+        del tuo gestore. Se non hai ancora un'identità
+        digitale, <a href="https://www.spid.gov.it/richiedi-spid"
+                     target="_blank">scopri come ottenerla</a>.
+      </p>
+    </div>
+    <div class="span4">
+      <p>
+        <?php
+       echo $spidsdk->insertSPIDButton("M");
+        ?>
+      </p>
+      <p>
+        <a href="https://www.spid.gov.it" target="_blank">Maggiori informazioni</a><br/>
+        <a href="https://www.spid.gov.it/richiedi-spid" target="_blank">Non hai SPID?</a><br/>
+        <a href="https://www.spid.gov.it/serve-aiuto" target="_blank">Serve aiuto?</a>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span8 offset2">
+      &nbsp;
+    </div>
+  </div>
+  <div class="row">
+    <div class="span4 offset2">
+      <p>
+        Per l'accesso con CIE devi avere la Carta di identità
+        elettronica. Visita il
+        <a href="https://www.cartaidentita.interno.gov.it/"
+           style="overflow-wrap: anywhere" target="_blank">sito</a> per
+        ottenere maggiori informazioni.
+      </p>
+    </div>
+    <div class="span4">
+      <p>
+        <?php
+       echo $ciesdk->insertCIEButton("M");
+        ?>
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="span8 offset2">
+      <hr/>
+      <h2>Informazioni</h2>
+
+      <p>
+        Per <b>informazioni o problemi di accesso</b> telefonare al numero
+        010&nbsp;563&nbsp;2222 (orario&nbsp;10-13) oppure scrivere
+        a <a href="mailto:refertiweb@galliera.it"><i class="icon-envelope"></i>
+        refertiweb@galliera.it</a> indicando cognome, nome e codice
+        fiscale.
+      </p>
+      <p>
+        Per <b>informazioni o problemi relativi ai referti prodotti dal
+        laboratorio analisi</b> telefonare al numero 010&nbsp;563&nbsp;2222 (orario
+        10-13) oppure scrivere
+        a <a href="mailto:refertilab@galliera.it"><i class="icon-envelope"></i>
+        refertilab@galliera.it</a> indicando cognome, nome e codice
+        fiscale.
+      </p>
+      <hr/>
+      <p>
+        <a href="//www.galliera.it/privacy/">Informativa sulla privacy</a>
+      </p>
+    </div>
+  </div>
+
+
+</div>
+
+</body>
+</html>
