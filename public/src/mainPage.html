@@ -1,0 +1,84 @@
+<html lang="it">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Galliera Login Proxy</title>
+    <link rel="stylesheet" href="/src/mainPageStyle.css">
+    <link rel="stylesheet" href="/src/bootstrap-italia/css/bootstrap-italia.min.css">
+</head>
+<body>
+<div class="row">
+    <a href="https://www.galliera.it/" class="logo-galliera-href no-focusborder">
+        <img class="logo-galliera" src="/src/resources/images/logoSmall.jpg" alt="">
+    </a>
+</div>
+<div class="section">
+    <div class="section-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h4>Servizi di accesso dell'Ospedale Galliera</h4>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-12 col-lg-7 col-xl-7 pr-0 pr-md-5 mb-3">
+                    SPID è il sistema di accesso che consente di utilizzare, con un'identità digitale unica, i servizi
+                    online della Pubblica Amministrazione e dei privati accreditati. Se sei già in possesso di un'identità
+                    digitale, accedi con le credenziali del tuo gestore. Se non hai ancora un'identità digitale, richiedila
+                    ad uno dei gestori
+                </div>
+                <div class="col-12 col-lg-5 col-xl-5 pr-0 pr-md-5 mb-3">
+                    <div class="text-center">
+                        <?php
+                            echo $spidsdk->insertSPIDButton("M");
+                        ?>
+                    </div>
+                    <div class="small text-center">
+                        <a href="https://www.spid.gov.it" target="_blank">Maggiori informazioni</a>
+                    </div>
+                    <div class="small text-center">
+                        <a href="https://www.spid.gov.it/richiedi-spid" target="_blank">Non hai SPID?</a>
+                    </div>
+                    <div class="small text-center">
+                        <a href="https://www.spid.gov.it/serve-aiuto" target="_blank">Serve aiuto?</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4" style="">
+                <div class="col-12 col-lg-7 col-xl-7 pr-0 pr-md-5 mb-3">
+                    Per l'accesso con CIE devi avere la Carta di identità elettronica, maggiori informazioni su
+                    <a href="https://www.cartaidentita.interno.gov.it/identificazione-digitale/entra-con-cie/"
+                       style="overflow-wrap: anywhere"
+                       target="_blank">https://www.cartaidentita.interno.gov.it/identificazione-digitale/entra-con-cie/</a>
+                </div>
+                <div class="col-12 col-lg-5 col-xl-5 pr-0 pr-md-5 mb-3">
+                    <div class="text-center">
+                        <?php
+                            echo $ciesdk->insertCIEButton("M");
+                        ?>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4" style="display: none">
+                <div class="col-12 col-lg-7 col-xl-7 pr-0 pr-md-5 mb-3">
+                    Accedi con un'identità digitale di un altro Paese Europeo <br>
+                    Sign in with a digital identity from another European Country
+                </div>
+                <div class="col-12 col-lg-5 col-xl-5 pr-0 pr-md-5 mb-3">
+                    <div class="text-center">
+                        <?php
+                            $spidsdk->insertEIDASButton("M");
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center mt-3">
+        <img style="height: 40px; width: auto;" src="/src/resources/images/spid-agid-logo-lb.png" alt="">
+    </div>
+</div>
+</body>
+</html>
