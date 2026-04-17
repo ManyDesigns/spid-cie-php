@@ -24,9 +24,9 @@
     use Jose\Component\Encryption\Serializer\CompactSerializer as JWESerializer;
     use Jose\Component\Encryption\JWEDecrypter;
 
-    const PROXY_CONFIG_FILE = "{{SDKHOME}}/spid-php-proxy.json";
     const TOKEN_PRIVATE_SPID_KEY = "{{SDKHOME}}/cert/spid-sp.pem";
     const TOKEN_PUBLIC_SPID_CERT = "{{SDKHOME}}/cert/spid-sp.crt";
+    const PROXY_CONFIG_FILE = "{{SDKHOME}}/spid-php-proxy.json";
     const TOKEN_PRIVATE_CIE_KEY = "{{SDKHOME}}/cert/cie-sp.pem";
     const TOKEN_PUBLIC_CIE_CERT = "{{SDKHOME}}/cert/cie-sp.crt";
     const DEFAULT_SPID_LEVEL = 2;
@@ -75,21 +75,21 @@
 
                     if(!$spidsdk->isIdPAvailable($idp)) {
                         if(PROXY_HOME) {
-                            header('Location: ' . PROXY_HOME . 
+                            header('Location: ' . PROXY_HOME .
                                     '?client_id=' . $client_id .
                                     '&level=' . $spidcie_level .
                                     '&redirect_uri=' . $redirect_uri .
                                     '&state=' . $state);
                         } else {
                             http_response_code(404);
-                            if(DEBUG) echo "idp not found"; 
+                            if(DEBUG) echo "idp not found";
                         }
 
-                        die(); 
+                        die();
                     }
 
-                    if($spidsdk->isAuthenticated() 
-                    && isset($_GET['idp']) 
+                    if($spidsdk->isAuthenticated()
+                    && isset($_GET['idp'])
                     && $spidsdk->isIdP($_GET['idp'])) {
 
                         // dearray values
@@ -104,7 +104,7 @@
                         $handlerClass = 'ResponseHandler'.$client_config['handler'];
 
                         if(!in_array($handlerClass, [
-                            'ResponseHandlerPlain', 
+                            'ResponseHandlerPlain',
                             'ResponseHandlerSign',
                             'ResponseHandlerSignEncrypt',
                             'ResponseHandlerEncryptSign'
@@ -120,16 +120,22 @@
                             }
                         }
 
-                        $handler = new $handlerClass($proxy_config['spDomain'], $client_config);
-                        $handler->set('providerId', $spidsdk->getIdP());
-                        $handler->set('providerName', $spidsdk->getIdPKey());
-                        $handler->set('responseId', $spidsdk->getResponseID());
-                        $handler->set('privateKey', $isCIE? TOKEN_PRIVATE_CIE_KEY : TOKEN_PRIVATE_SPID_KEY);
-                        $handler->set('publicCert', $isCIE? TOKEN_PUBLIC_CIE_CERT : TOKEN_PUBLIC_SPID_CERT);
-                        
-                        $handler->sendResponse($redirect_uri, $data, $state);
-                        die();
-                
+                        // $handler = new $handlerClass($proxy_config['spDomain'], $client_config);
+                        // $handler->set('providerId', $spidsdk->getIdP());
+                        // $handler->set('providerName', $spidsdk->getIdPKey());
+                        // $handler->set('responseId', $spidsdk->getResponseID());
+
+                        // $handler->sendResponse($redirect_uri, $data, $state);
+                        // die();
+
+                        $exp_time = $proxy_config['tokenExpTime'] ?: DEFAULT_TOKEN_EXPIRATION_TIME;
+                        $iss = $proxy_config['spDomain'];
+                        $aud = $redirect_uri;
+                        $jwt_pem = $isCIE? TOKEN_PRIVATE_CIE_KEY : TOKEN_PRIVATE_SPID_KEY;
+                        $signedDataToken = makeJWT($data, $exp_time, $iss, $aud, $jwt_pem);
+                        header('Location: '.$redirect_uri."?token=". $signedDataToken."&service=". $service);
+                        exit();
+
                     } else {
                         /*
                         $spidcie_level = $clients[$client_id]['level'];
@@ -148,13 +154,13 @@
 
                 } else {
                     http_response_code(404);
-                    if(DEBUG) echo "redirect_uri not found";  
+                    if(DEBUG) echo "redirect_uri not found";
                     die();
                 }
 
             } else {
                 http_response_code(404);
-                if(DEBUG) echo "client not found";  
+                if(DEBUG) echo "client not found";
                 die();
             }
 
@@ -166,7 +172,7 @@
 
             /* LOGOUT FOR SPID SERVICE */
             $service = "spid";
-        
+
             if(isset($clients[$client_id]['service'])) {
                 $service = $clients[$client_id]['service'];
             }
@@ -174,17 +180,17 @@
             $spidsdk = new SPID_PHP($production, $service);
 
             if($spidsdk->isAuthenticated()) {
-                /* 
+                /*
                  * Uncomment to exec local logout instead of IdP logout
                  */
-                
+
                 $sspSession = \SimpleSAML\Session::getSessionFromRequest();
                 $sspSession->doLogout($service);
             }
 
             /* LOGOUT FOR CIE SERVICE */
             $service = "cie";
-        
+
             if(isset($clients[$client_id]['service'])) {
                 $service = $clients[$client_id]['service'];
             }
@@ -192,25 +198,25 @@
             $spidsdk = new SPID_PHP($production, $service);
 
             if($spidsdk->isAuthenticated()) {
-                /* 
+                /*
                  * Uncomment to exec local logout instead of IdP logout
                  */
-                
+
                 $sspSession = \SimpleSAML\Session::getSessionFromRequest();
                 $sspSession->doLogout($service);
-            }            
+            }
 
             header("location: " . $return);
-            die();            
+            die();
 
         break;
 
-        case "verify": 
+        case "verify":
             $token = $_GET['token'];
             $secret = $_GET['secret']?:'';
             $service = $_GET['service']?:'spid';
             if(!$token) http_response_code(400);
-            $decrypt = ($_GET['decrypt'] && strtoupper($_GET['decrypt'])=='Y')? true:false; 
+            $decrypt = ($_GET['decrypt'] && strtoupper($_GET['decrypt'])=='Y')? true:false;
 
             $algorithmManager = new AlgorithmManager([new RS256()]);
             $jwsVerifier = new JWSVerifier($algorithmManager);
@@ -224,7 +230,7 @@
                 $payload_obj = json_decode($payload);
                 if($decrypt && isset($payload_obj->data)) {
                     $token = $payload_obj->data;
-                    
+
                     $keyEncryptionAlgorithmManager = new AlgorithmManager([ new A256KW() ]);
                     $contentEncryptionAlgorithmManager = new AlgorithmManager([ new A256CBCHS512() ]);
                     $compressionMethodManager = new CompressionMethodManager([ new Deflate() ]);
@@ -240,7 +246,7 @@
                         header('Content-Type: application/json; charset=utf-8');
                         http_response_code(422);
                     }
-                    
+
                     $payload = $jwe->getPayload();
                 }
 
@@ -259,16 +265,44 @@
 
     $returnTo = $_COOKIE['SPIDPHP_PROXYRETURNTO'];
     if($returnTo!=null && $returnTo!='') {
-        unset($_COOKIE['SPIDPHP_PROXYRETURNTO']); 
-        setcookie('SPIDPHP_PROXYRETURNTO', null, -1, '/'); 
+        unset($_COOKIE['SPIDPHP_PROXYRETURNTO']);
+        setcookie('SPIDPHP_PROXYRETURNTO', null, -1, '/');
         header('Location: '.$returnTo);
         echo "Redirect to <a href='".$returnTo."'>".$returnTo."</a>";
         die();
     }
 
     http_response_code(404);
-    if(DEBUG) echo "action not valid"; 
-    die(); 
+    if(DEBUG) echo "action not valid";
+    die();
 
+    function makeJWT($payload, $exp_time, $iss, $aud, $jwt_pem): string {
 
+            $iat        = new DateTimeImmutable();
+            $exp_time   = $exp_time?: DEFAULT_TOKEN_EXPIRATION_TIME;
+            $exp        = $iat->modify("+".$exp_time." seconds")->getTimestamp();
+
+            $data = [
+            'iss'  => $iss,                                     // Issuer - spDomain
+            'aud'  => $aud,                                     // Audience - Redirect_uri
+            'iat'  => $iat->getTimestamp(),                     // Issued at: time when the token was generated
+            'nbf'  => $iat->getTimestamp(),                     // Not before
+            'exp'  => $exp,                                     // Expire
+            'data' => $payload,                                 // Authentication Data
+            ];
+            $privateKey = file_get_contents($jwt_pem,true);
+
+            $algorithmManager = new AlgorithmManager([new RS256()]);
+            $jwsBuilder = new JWSBuilder($algorithmManager);
+            $jws = $jwsBuilder
+            ->create()
+            ->withPayload(json_encode($data))
+            ->addSignature(JWKFactory::createFromKeyFile($jwt_pem), ['alg' => 'RS256'])
+            ->build();
+
+            $serializer = new JWSSerializer();
+            $token = $serializer->serialize($jws);
+
+            return $token;
+        }
 ?>
