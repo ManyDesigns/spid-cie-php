@@ -1,0 +1,29 @@
+.control-group > DIV.control-label {
+    float:none;
+    width:auto;
+    padding-top:0;
+    text-align:left;
+}
+.form-horizontal .control-group > DIV.control-label {
+    float: left;
+    width: 140px;
+    padding-top: 5px;
+    text-align: right;
+}
+/*[class^="icon-"],[class*="icon-"]{*/
+[class^="icon-"]{
+    background-image:none !important;
+}
+
+.icon-white{
+    background-image:none;
+}
+
+.v-spacer{
+    height:60px;
+}
+
+.brand{
+    height:30px;
+    padding-bottom: 0 !important;
+}
