@@ -1,0 +1,10 @@
+services:
+  database:
+    image: mysql:9.2
+    container_name: spidproxy_mysql92
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
