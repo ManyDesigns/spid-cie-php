@@ -21,7 +21,16 @@ class PROXY_SPID_PHP extends SPID_PHP {
 
     public function addSPIDButtonListItems($method='GET'): string{
 
-        $registry_idp_json = @file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
+        // Manage Galliera PROXY
+        $arrContextOptions = array('http' => array(
+                'proxy' => 'tcp://proxy.galliera.it:3128',
+                'request_fulluri' => true
+        ));
+
+        // $registry_idp_json = @file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
+        $registry_idp_json = file_get_contents('https://registry.spid.gov.it/entities-idp?output=json', false, stream_context_create($arrContextOptions));
+        
+
         $registry_idp = json_decode($registry_idp_json, true);
 
         if($registry_idp!=null && is_array($registry_idp) && count($registry_idp)) {
