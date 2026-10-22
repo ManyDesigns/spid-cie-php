@@ -1,0 +1,89 @@
+{
+    "config": {
+        "version": "3.19.1",
+        "allow-plugins": {
+            "simplesamlphp/composer-module-installer": true
+        }
+    },
+    "repositories": {
+        "spid-sp-access-button": {
+            "type": "package",
+            "package": {
+                "name": "italia/spid-sp-access-button",
+                "version": "1.0",
+                "source": {
+                    "url": "https://github.com/italia/spid-sp-access-button",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        },        
+        "spid-smart-button": {
+            "type": "package",
+            "package": {
+                "name": "italia/spid-smart-button",
+                "version": "1.0",
+                "source": {
+                    "url": "https://github.com/damikael/spid-smart-button",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        },
+        "cie-graphics": {
+            "type": "package",
+            "package": {
+                "name": "italia/cie-graphics",
+                "version": "1.0",
+                "source": {
+                    "url": "https://github.com/italia/cie-graphics",
+                    "type": "git",
+                    "reference": "master"
+                }
+            }
+        }
+    },
+    "require": {
+        "php": ">=8.1.0",
+        "ext-xml": "*",
+        "ext-mbstring": "*",
+        "ext-gmp": "*",
+        "lib-openssl": ">=1.1.1",
+        "simplesamlphp/simplesamlphp": "1.19.8",
+        "italia/spid-smart-button": "*",
+        "italia/spid-sp-access-button": "*",
+        "italia/cie-graphics": "*",
+        "symfony/filesystem": "5.2.6",
+        "web-token/jwt-core": "2.2.11",
+        "web-token/jwt-key-mgmt": "2.2.11",
+        "web-token/jwt-signature": "2.2.11",
+        "web-token/jwt-encryption": "2.2.11",
+        "web-token/jwt-signature-algorithm-rsa": "2.2.11",
+        "web-token/jwt-signature-algorithm-hmac": "2.2.11",
+        "web-token/jwt-encryption-algorithm-aeskw": "2.2.11",
+        "web-token/jwt-encryption-algorithm-aescbc": "2.2.11"
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "SPID_PHP\\Setup::setup"
+        ],
+        "update-metadata": [
+            "SPID_PHP\\Setup::updateMetadata"
+        ],
+        "make-certificate": [
+            "SPID_PHP\\Setup::makeCertificate"
+        ],
+        "sign-metadata": [
+            "SPID_PHP\\Setup::signMetadata"
+        ],
+        "uninstall": [
+            "SPID_PHP\\Setup::remove"
+        ]
+    },
+    "scripts-descriptions": {
+        "uninstall": "Remove all packages and custom configurations"
+    },    
+    "autoload": {
+        "classmap": ["setup/"]
+    }         
+}
