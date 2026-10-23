@@ -569,6 +569,21 @@
         public function insertCIEButton($size = 'L') {
             echo $this->getCIEButton($size);
         }
+
+        public function includeWithVariables($filePath, $variables = array(), $print = true)
+        {
+            $output = NULL;
+            if(file_exists($filePath)){
+                extract($variables);// Extract the variables to a local namespace
+                ob_start();// Start output buffering
+                include $filePath; // Include the template file
+                $output = ob_get_clean(); // End buffering and return its contents
+            }
+            if ($print) {
+                print $output;
+            }
+            return $output;
+        }
     }
 
 ?>

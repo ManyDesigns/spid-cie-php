@@ -3,7 +3,7 @@ vendor
 cert
 composer.lock
 spid-php.php
-spid-php-setup*.json
+spid-php-setup.json
 spid-php-openssl.cnf
 cie-php-openssl.cnf
 .idea

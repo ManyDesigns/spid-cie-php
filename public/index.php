@@ -20,7 +20,7 @@ if ($spidsdk->isAuthenticated()
 } else {
     if (!isset($_GET['idp'])) {
         $spidsdk->insertSPIDButtonCSS();
-        $spidsdk->insertMainPage();
+        $spidsdk->insertMainPage($client_id, $redirect_uri, $state, $production);
         //$spidsdk->insertSPIDButton("L");
         $spidsdk->insertSPIDButtonJS();
     } else {
