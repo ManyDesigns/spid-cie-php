@@ -1452,12 +1452,21 @@ class Setup {
         $config = file_exists("spid-php-setup.json") ?
                 json_decode(file_get_contents("spid-php-setup.json"), true) : array();
         
-        $arrContextOptions = array(
-            'ssl' => array(
-                'verify_peer' => false,
-                'verify_peer_name' => true,
-            )
-        );
+
+        // Manage Galliera proxy for SPID Registry and Demo IDP metadata retrieval
+        // $arrContextOptions = array(
+        //     'ssl' => array(
+        //         'verify_peer' => false,
+        //         'verify_peer_name' => true,
+        //     )
+        // );
+        $arrContextOptions = array("ssl" => array(
+            "verify_peer" => false,
+            "verify_peer_name" => true,
+        ),'http' => array(
+            'proxy' => 'tcp://proxy.galliera.it:3128',
+            'request_fulluri' => true
+        ));
 
         if (!file_exists($config['installDir'] . "/vendor")) {
             echo "\nspid-php is not installed. Please install it first.\n\n composer install\n\n";
@@ -1605,7 +1614,9 @@ class Setup {
                 if ($config['addSPID']) {
                     $icon = "assets/icons/spid-idp-dummy.png";
                     echo $colors->getColoredString("\nRetrieve IDP logo for " . $IDPentityID . "... ", "white");
-                    $registry_idp_json = file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
+                    // Manage Galliera proxy for SPID Registry and Demo IDP metadata retrieval
+                    // $registry_idp_json = file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
+                    $registry_idp_json = file_get_contents('https://registry.spid.gov.it/entities-idp?output=json', false, stream_context_create($arrContextOptions));
                     $registry_idp = json_decode($registry_idp_json, true);
         
                     foreach($registry_idp as $registry_idp_entity) {

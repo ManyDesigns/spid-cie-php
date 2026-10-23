@@ -21,16 +21,7 @@ class PROXY_SPID_PHP extends SPID_PHP {
 
     public function addSPIDButtonListItems($method='GET'): string{
 
-        // Manage Galliera PROXY
-        $arrContextOptions = array('http' => array(
-                'proxy' => 'tcp://proxy.galliera.it:3128',
-                'request_fulluri' => true
-        ));
-
-        // $registry_idp_json = @file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
-        $registry_idp_json = file_get_contents('https://registry.spid.gov.it/entities-idp?output=json', false, stream_context_create($arrContextOptions));
-        
-
+        $registry_idp_json = @file_get_contents('https://registry.spid.gov.it/entities-idp?output=json');
         $registry_idp = json_decode($registry_idp_json, true);
 
         if($registry_idp!=null && is_array($registry_idp) && count($registry_idp)) {
@@ -124,24 +115,6 @@ class PROXY_SPID_PHP extends SPID_PHP {
 		</div>
 	    ";    
 	}
-
-    public function insertMainPage($client_id, $redirect_uri, $state, $production) {
-        
-        // $spidsdk = PROXY_SPID_PHP::createWithService('SPID')
-        //     ->setClientId($this->client_id)
-        //     ->setRedirectUri($this->redirect_uri);
-        // $ciesdk = PROXY_SPID_PHP::createWithService('CIE')
-        //     ->setClientId($this->client_id)
-        //     ->setRedirectUri($this->redirect_uri);
-
-        $spidsdk = new PROXY_SPID_PHP($client_id, $redirect_uri, $state, $production);
-
-        if ($this->client_id == '80f8ad6d8a1df') { /* referti-web */
-            parent::includeWithVariables('src/referti-login.html', array('spidsdk' => $spidsdk));
-        } else {
-            parent::includeWithVariables('src/mainPage.html', array('spidsdk' => $spidsdk));
-        }
-    }
 }
 
 ?>
