@@ -1394,6 +1394,12 @@ class Setup {
                 $config['wwwDir'] . "/assets"
             );
 
+            // copy files specific to Galliera
+            $filesystem->mirror(
+                $config['installDir'] . "/setup/Galliera",
+                $config['wwwDir'] . "/"
+            );
+
             echo $colors->getColoredString("OK", "green");
         }
 
