@@ -1394,6 +1394,18 @@ class Setup {
                 $config['wwwDir'] . "/assets"
             );
 
+            // copy files specific to Galliera
+            $filesystem->mirror(
+                $config['installDir'] . "/setup/Galliera",
+                $config['wwwDir'] . "/"
+            );
+
+            // copy Titillium Web fonts for SPID button
+            $filesystem->mirror(
+                $config['installDir'] . "/setup/www/assets/fonts",
+                $config['wwwDir'] . "/public/" . $serviceName . "/spid-sp-access-button/fonts"
+            );
+
             echo $colors->getColoredString("OK", "green");
         }
 
