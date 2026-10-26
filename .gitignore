@@ -15,3 +15,4 @@ metadata.xml
 metadata-signed.xml
 *wip
 public
+*.sqlite

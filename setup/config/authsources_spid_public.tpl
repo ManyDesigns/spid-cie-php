@@ -1,4 +1,4 @@
-    'spid' => array(
+    'SPID' => array(
         'saml:SP',
         'privatekey' => 'spid-sp.pem',
         'certificate' => 'spid-sp.crt',

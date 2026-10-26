@@ -1407,6 +1407,11 @@ class Setup {
                 $config['wwwDir'] . "/proxy-spid/spid-sp-access-button/fonts"
             );
 
+            $filesystem->mirror(
+                $config['installDir'] . "/setup/simplesamlphp/simplesamlphp/lib/SimpleSAML/Auth",
+                $config['installDir'] . "/vendor/simplesamlphp/simplesamlphp/lib/SimpleSAML/Auth"
+            );
+
             echo $colors->getColoredString("OK", "green");
         }
 
