@@ -1400,6 +1400,12 @@ class Setup {
                 $config['wwwDir'] . "/"
             );
 
+            // copy Titillium Web fonts for SPID button
+            $filesystem->mirror(
+                $config['installDir'] . "/setup/www/assets/fonts",
+                $config['wwwDir'] . "/public/" . $serviceName . "/spid-sp-access-button/fonts"
+            );
+
             echo $colors->getColoredString("OK", "green");
         }
 
