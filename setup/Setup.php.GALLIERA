@@ -1404,7 +1404,7 @@ class Setup {
             // TODO: the serviceName in the destination folder ( "proxy-spide" ) should be parameterized, but for now we hardcode it
             $filesystem->mirror(
                 $config['installDir'] . "/setup/www/assets/fonts",
-                $config['wwwDir'] . "/public/proxy-spid/spid-sp-access-button/fonts"
+                $config['wwwDir'] . "/proxy-spid/spid-sp-access-button/fonts"
             );
 
             echo $colors->getColoredString("OK", "green");
