@@ -214,6 +214,8 @@ class Error extends Exception
             'url'            => Utils\HTTP::getSelfURLNoQuery(),
             'version'        => $config->getVersion(),
             'referer'        => $referer,
+            'redirectUri'    => $session->getRedirectUri(),
+            'clientId'       => $session->getClientId(),
         ];
         $session->setData('core:errorreport', $reportId, $errorData);
 

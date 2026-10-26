@@ -2,13 +2,14 @@
 
 include("src/header.html");
 
-$data = base64_decode($_GET['data']);
-$client_id = $_GET['client_id'];
-$redirect_uri = $_GET['redirect_uri'];
+$statusMessage = $_POST['statusMessage'];
+$statusCode = $_POST['statusCode'];
+$errorMessage = $_POST['errorMessage'];
+$client_id = $_POST['clientId'];
+$redirect_uri = $_POST['redirectUri'];
 
 $config = getConfig();
-//TODO:After AGID approaval we need to hold cliend and redirect_uri somehow and redirect to main page again!!
-$entityID = $config['authsources']['SPID']['entityID'];
+
 //TODO: If we arrive main page without client id, redirect to error page with message (After AGID approval!!)
 echo "<div class='section'>
         <div class='section-content'>
@@ -17,9 +18,11 @@ echo "<div class='section'>
                     <div style='display: flex; justify-content: center; align-items: center;'>
                         <object class='error-icon' data='src/resources/icons/exclamation-triangle.svg' height='100' width='100'></object>
                     </div>
-                    <div class='error-data'>" .$data. "</div>
+                    <div class='error-data'>" .$errorMessage. "</div>
+                    <div class='error-data'>" .$statusMessage. "</div>
+                    <div class='error-data'>" .$statusCode. "</div>
                     <div style='display: flex; justify-content: center;'>
-                       <a href=\"" .$entityID."/proxy-login.php?client_id=".$client_id."&redirect_uri=".$redirect_uri."\" class=\"btn btn-primary\" role=\"button\" aria-disabled=\"true\">Riprova</a>
+                       <a href=\"/proxy-login.php?client_id=".$client_id."&redirect_uri=".$redirect_uri."\" class=\"btn btn-primary\" role=\"button\" aria-disabled=\"true\">Riprova</a>
                     </div>
                 </div>
               </div>
