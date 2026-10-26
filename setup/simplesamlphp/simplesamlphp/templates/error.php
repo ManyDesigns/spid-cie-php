@@ -19,6 +19,9 @@
         <input type="hidden" name="statusCode" value="<?php echo htmlspecialchars($this->data['error']['statusCode']); ?>" />
         <input type="hidden" name="statusMessage" value="<?php echo htmlspecialchars($this->data['error']['statusMessage']); ?>" />
         <input type="hidden" name="errorMessage" value="<?php echo htmlspecialchars($this->data['errorMessage']); ?>" />
+        <input type="hidden" name="redirectUri" value="<?php echo htmlspecialchars($this->data['error']['redirectUri']); ?>" />
+        <input type="hidden" name="clientId" value="<?php echo htmlspecialchars($this->data['error']['clientId']); ?>" />
+        <p>Redirecting to error page...</p>
         <input type="submit" id="postLoginSubmitButton">
         <noscript>
             <button type="submit" class="btn">Submit</button>
