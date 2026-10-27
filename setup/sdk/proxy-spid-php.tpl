@@ -115,6 +115,17 @@ class PROXY_SPID_PHP extends SPID_PHP {
 		</div>
 	    ";    
 	}
+
+    public function insertMainPage($client_id, $redirect_uri, $state, $production) {
+
+        $spidsdk = new PROXY_SPID_PHP($client_id, $redirect_uri, $state, $production);
+
+        if ($this->client_id == '80f8ad6d8a1df') { /* referti-web */
+            parent::includeWithVariables('src/referti-login.html', array('spidsdk' => $spidsdk));
+        } else {
+            parent::includeWithVariables('src/mainPage.html', array('spidsdk' => $spidsdk));
+        }
+	}
 }
 
 ?>
