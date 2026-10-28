@@ -18,6 +18,12 @@ Sposto tutto sul percorso di destinazione:
 	cd /srv
 	sudo mv /spid-cie-php spid
 
+e faccio un po' di pulizia:
+
+	sudo rm -r .git
+	sudo rm -r .github/
+	sudo rm -r .vscode/
+
 ---
 
 A questo punto mi aspetto che i file siano di proprietà dell'utente `md:md`. Deve essere così per consentirmi di fare tutto il processo di configurazione. Ci occuperemo al termine della procedura di sistemare le permissions.
@@ -33,6 +39,12 @@ Se già disponibili, copio i certificati nella cartella di destinazione:
 
 	mkdir /srv/spid/cert
 	cp /already/available/cert/* /srv/spid/cert
+
+Già che ci siamo, può avere senso dare un'occhiata ai certificati:
+
+	cd /srv/spid/cert
+	openssl x509 -in spid-sp.crt -text -noout
+	openssl x509 -in cie-sp.crt -text -noout
 
 ---
 
@@ -57,6 +69,14 @@ E finalmente:
 
 Mi raccomando, verifica l'output del comando per individuare ( e quindi correggere ) eventuali problemi.
 
+## Fix folder permissions
+
+```sh
+cd /srv
+sudo chown -R www-data:www-data spid
+cd /srv/spid
+sudo chown -R root:root cert
+```
 
 # Post install
 
