@@ -1,4 +1,4 @@
-    'CIE' => array(
+    'cie' => array(
         'saml:SP',
         'privatekey' => 'cie-sp.pem',
         'certificate' => 'cie-sp.crt',
