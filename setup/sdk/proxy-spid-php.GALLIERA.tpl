@@ -11,7 +11,7 @@ require_once("spid-php.php");
  */
 class PROXY_SPID_PHP extends SPID_PHP {
 
-    public function __construct($client_id, $redirect_uri, $state='', $production=false, $servicename='spid') {
+    public function __construct($client_id, $redirect_uri, $state='', $production=false, $servicename='SPID') {
         parent::__construct($production, $servicename);
         $this->client_id = $client_id;
         $this->redirect_uri = urlencode($redirect_uri);

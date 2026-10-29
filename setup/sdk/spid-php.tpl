@@ -7,13 +7,13 @@
         private $spid_auth;
         private $idps = array();
         private $purpose = null;
-        private $service = 'spid';
+        private $service = 'SPID';
         private $production = false;
         
         public const SPID_ENABLED = {{SPID_ENABLED}};
         public const CIE_ENABLED = {{CIE_ENABLED}};
 
-        function __construct($production=false, $service='spid') {
+        function __construct($production=false, $service='SPID') {
             $this->spid_auth = new SimpleSAML\Auth\Simple($service);
             $this->production = $production;
             $this->service = $service;

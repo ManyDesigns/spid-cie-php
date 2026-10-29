@@ -214,13 +214,13 @@
         case "verify":
             $token = $_GET['token'];
             $secret = $_GET['secret']?:'';
-            $service = $_GET['service']?:'spid';
+            $service = $_GET['service']?:'SPID';
             if(!$token) http_response_code(400);
             $decrypt = ($_GET['decrypt'] && strtoupper($_GET['decrypt'])=='Y')? true:false;
 
             $algorithmManager = new AlgorithmManager([new RS256()]);
             $jwsVerifier = new JWSVerifier($algorithmManager);
-            $jwk = JWKFactory::createFromKeyFile(($service=='cie')? TOKEN_PUBLIC_CIE_CERT: TOKEN_PUBLIC_SPID_CERT);
+            $jwk = JWKFactory::createFromKeyFile(($service=='CIE')? TOKEN_PUBLIC_CIE_CERT: TOKEN_PUBLIC_SPID_CERT);
             $serializerManager = new JWSSerializerManager([ new JWSSerializer() ]);
             $jws = $serializerManager->unserialize($token);
             $isVerified = $jwsVerifier->verifyWithKey($jws, $jwk, 0);
